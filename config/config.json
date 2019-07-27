@@ -1,0 +1,13 @@
+{
+  "development": {
+    "use_env_variable": "DATABASE_URL"
+  },
+  "production": {
+    "username": "pqyrnxnj",
+    "password": "Xevtm2tXpkBlfc3sEfgCuivcDXEHWC1o",
+    "database": "pqyrnxnj",
+    "host": "raja.db.elephantsql.com",
+    "dialect": "pg",
+    "operatorsAliases": false
+  }
+}
