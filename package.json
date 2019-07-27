@@ -1,0 +1,27 @@
+{
+  "name": "controle-de-horas-api",
+  "version": "1.0.0",
+  "description": "Sistema para controlar horas de profissionais em projetos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frutuozo29/controle-de-horas-api.git"
+  },
+  "author": "Renan Frutuozo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frutuozo29/controle-de-horas-api/issues"
+  },
+  "homepage": "https://github.com/frutuozo29/controle-de-horas-api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1"
+  }
+}
