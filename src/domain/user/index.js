@@ -1,4 +1,4 @@
-const models = require('../../database/models')
+const User = require('../../database/models').User
 
 module.exports.authenticate = async (user, password) => {
   try {
@@ -22,17 +22,17 @@ module.exports.create = async user => {
       password: user.password
     }
 
-    const response = await models.User.create(newUser)
+    const response = await User.create(newUser)
     return response
   } catch (error) { }
 }
 
-module.exports.read = async () => models.User.findAll()
+module.exports.read = async () => User.findAll()
 
-module.exports.readById = async id => models.User.findByPk(id)
+module.exports.readById = async id => User.findByPk(id)
 
-module.exports.readByUsername = async username => models.User.findOne({ where: { name: username } })
+module.exports.readByUsername = async username => User.findOne({ where: { name: username } })
 
-module.exports.update = async (id, user) => models.User.update(user, { where: { id } })
+module.exports.update = async (id, user) => User.update(user, { where: { id } })
 
-module.exports.del = async id => models.User.destroy({ where: { id } })
+module.exports.del = async id => User.destroy({ where: { id } })
