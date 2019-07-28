@@ -1,5 +1,4 @@
 const userDomain = require('../../domain/user')
-const key = require('../../jwt/key')
 const jwt = require('jsonwebtoken')
 
 module.exports.auth = async (req, res, next) => {
@@ -7,7 +6,7 @@ module.exports.auth = async (req, res, next) => {
     const { username, password } = req.body
     const user = await userDomain.authenticate(username, password)
 
-    const token = jwt.sign(user, key.tokenKey, {
+    const token = jwt.sign(user, process.env.SECRET_KEY, {
       expiresIn: '86400m'
     })
     const { iat, exp } = jwt.decode(token)
