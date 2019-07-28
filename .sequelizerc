@@ -1,7 +1,7 @@
 const path = require('path');
 
 const folderDefault = path.resolve('src', 'database')
-console.log(folderDefault)
+
 module.exports = {
   'config': path.resolve(folderDefault, 'config', 'config.json'),
   'models-path': path.resolve(folderDefault, 'models'),
