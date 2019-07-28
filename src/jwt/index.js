@@ -1,9 +1,16 @@
 const jwt = require('jsonwebtoken')
 const key = require('./key')
 
+const ignoredPaths = ['/api/auth']
+
 module.exports.configureJwt = server => {
   server.use((req, res, next) => {
     try {
+      if (ignoredPaths.includes(req.url)) {
+        next()
+        return
+      }
+
       const token = req.headers.authorization && req.headers.authorization.split(' ')[1]
 
       if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' })
