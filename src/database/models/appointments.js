@@ -7,5 +7,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false
   })
+
+  Appointments.associate = models => {
+    Appointments.hasOne(models.Project, {
+      foreignKey: 'id',
+      sourceKey: 'projectId'
+    })
+  }
+
   return Appointments
 }

@@ -6,12 +6,5 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
-  User.associate = models => {
-    User.belongsToMany(models.Project, {
-      through: 'ProjectUsers',
-      foreignKey: 'userId'
-    })
-  }
-
   return User
 }

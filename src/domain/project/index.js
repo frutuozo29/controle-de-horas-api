@@ -20,21 +20,27 @@ module.exports.read = async (userId) => {
   }).map(item => item.projectId)
 
   const appointments = await Appointments.findAll({
+    include: [{
+      model: Project,
+      attributes: ['name']
+    }],
     attributes: ['projectId', [db.sequelize.fn('sum', db.sequelize.col('quantity')), 'quantity']],
     raw: true,
     where: {
       projectId: projectIds,
       userId
     },
-    group: ['projectId']
+    group: ['projectId', 'name']
+
   })
 
-  let projects = await Project.findAll({
+  const projects = await Project.findAll({
     raw: true,
     where: { id: projectIds }
+  }).map(project => {
+    const appointment = appointments.find(app => app.projectId === project.id)
+    return { ...project, quantity: (appointment && appointment.quantity) || 0 }
   })
-
-  projects = projects.map(project => ({ ...project, quantity: appointments.filter(app => app.projectId === project.id)[0].quantity || 0 }))
 
   return projects
 }
