@@ -5,9 +5,11 @@ module.exports = {
     queryInterface.bulkInsert('Projects',
       [
         {
+          id: 1,
           name: 'Projeto Cliente A'
         },
         {
+          id: 2,
           name: 'Projeto Cliente B'
         }
       ], {}),

@@ -3,15 +3,17 @@ const User = require('../../database/models').User
 module.exports.authenticate = async (user, password) => {
   try {
     const userbd = await this.readByUsername(user)
+    
     if (userbd && userbd.password !== password) {
       throw new Error('Username or password is invalid')
     }
-
+    
     return Promise.resolve({
       id: userbd.id,
       username: userbd.name,
       password: userbd.password
     })
+    console.log('aqui')
   } catch (error) {
     throw error.message
   }

@@ -1,4 +1,4 @@
-const { Project, User } = require('../../database/models')
+const { Project, ProjectUsers, User } = require('../../database/models')
 
 module.exports.create = async project => {
   try {
@@ -12,14 +12,20 @@ module.exports.create = async project => {
 }
 
 module.exports.read = async (userId) => {
-  const projects = await Project.findAll({
-    include: [{
-      model: User,
-      through: { attributes: [] }
-    }]
-  })
+  const projects = await Project.findAll()
+  const projectUsers = ProjectUsers.findAll({ where: {userId}})
 
-  return projects
+  const parsedProjectUser = JSON.stringify(projectUsers)
+  console.log(parsedProjectUser)
+  const idsProject = parsedProjectUser.map(parsed => parsed.projectId)
+console.log(idsProject)
+
+  const mapped = projects.map(project => {
+    if (idsProject.include(project.id)) {
+      return project
+    }    
+  })
+  return mapped
 }
 
 module.exports.readById = async id => Project.findByPk(id)
