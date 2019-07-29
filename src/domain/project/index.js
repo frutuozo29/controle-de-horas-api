@@ -1,4 +1,5 @@
-const { Project, ProjectUsers, User } = require('../../database/models')
+const db = require('../../database/models')
+const { Project, ProjectUsers, Appointments } = require('../../database/models')
 
 module.exports.create = async project => {
   try {
@@ -12,20 +13,30 @@ module.exports.create = async project => {
 }
 
 module.exports.read = async (userId) => {
-  const projects = await Project.findAll()
-  const projectUsers = ProjectUsers.findAll({ where: {userId}})
+  const projectIds = await ProjectUsers.findAll({
+    attributes: ['projectId'],
+    raw: true,
+    where: { userId }
+  }).map(item => item.projectId)
 
-  const parsedProjectUser = JSON.stringify(projectUsers)
-  console.log(parsedProjectUser)
-  const idsProject = parsedProjectUser.map(parsed => parsed.projectId)
-console.log(idsProject)
-
-  const mapped = projects.map(project => {
-    if (idsProject.include(project.id)) {
-      return project
-    }    
+  const appointments = await Appointments.findAll({
+    attributes: ['projectId', [db.sequelize.fn('sum', db.sequelize.col('quantity')), 'quantity']],
+    raw: true,
+    where: {
+      projectId: projectIds,
+      userId
+    },
+    group: ['projectId']
   })
-  return mapped
+
+  let projects = await Project.findAll({
+    raw: true,
+    where: { id: projectIds }
+  })
+
+  projects = projects.map(project => ({ ...project, quantity: appointments.filter(app => app.projectId === project.id)[0].quantity || 0 }))
+
+  return projects
 }
 
 module.exports.readById = async id => Project.findByPk(id)
