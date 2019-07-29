@@ -12,7 +12,7 @@ module.exports.auth = async (req, res, next) => {
     const { iat, exp } = jwt.decode(token)
     res.json({ iat, exp, token })
   } catch (err) {
-    res.json({ message: err })
+    res.status(400).json({ message: err })
   }
   next()
 }

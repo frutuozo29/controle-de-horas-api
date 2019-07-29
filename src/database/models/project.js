@@ -5,5 +5,13 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
+  Project.associate = models => {
+    Project.belongsToMany(models.User, {
+      through: 'ProjectUser',
+      as: 'users',
+      foreignKey: 'projectId'
+    })
+  }
+
   return Project
 }

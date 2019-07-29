@@ -6,5 +6,13 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
+  User.associate = models => {
+    User.belongsToMany(models.Project, {
+      through: 'ProjectUser',
+      as: 'Projects',
+      foreignKey: 'userId'
+    })
+  }
+
   return User
 }

@@ -12,7 +12,7 @@ module.exports.create = async (req, res, next) => {
 
 module.exports.read = async (req, res, next) => {
   try {
-    const projects = await projectDomain.read()
+    const projects = await projectDomain.read(req.user.id)
     res.json(projects)
   } catch (err) {
     res.json({ message: err.message })

@@ -1,4 +1,4 @@
-const Project = require('../../database/models').Project
+const { Project, User } = require('../../database/models')
 
 module.exports.create = async project => {
   try {
@@ -11,7 +11,16 @@ module.exports.create = async project => {
   } catch (error) { }
 }
 
-module.exports.read = async () => Project.findAll()
+module.exports.read = async (userId) => {
+  const projects = await Project.findAll({
+    include: [{
+      model: User,
+      through: { attributes: [] }
+    }]
+  })
+
+  return projects
+}
 
 module.exports.readById = async id => Project.findByPk(id)
 

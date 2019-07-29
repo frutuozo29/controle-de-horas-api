@@ -6,5 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
+  ProjectUser.associate = models => {
+    ProjectUser.belongsTo(models.User)
+    ProjectUser.belongsTo(models.Project)
+  }
+
   return ProjectUser
 }

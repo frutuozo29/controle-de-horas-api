@@ -12,7 +12,9 @@ module.exports.authenticate = async (user, password) => {
       username: userbd.name,
       password: userbd.password
     })
-  } catch (error) { }
+  } catch (error) {
+    throw error.message
+  }
 }
 
 module.exports.create = async user => {
